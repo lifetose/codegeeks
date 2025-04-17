@@ -29,8 +29,15 @@ export class EventsService {
 
   public async update(
     eventId: EventID,
-    updateUserDto: UpdateEventDto,
+    dto: UpdateEventDto,
   ): Promise<EventEntity> {
-    return {} as any;
+    const event = await this.eventRepository.getById(eventId);
+    Object.assign(event, dto);
+    return await this.eventRepository.save(event);
+  }
+
+  public async delete(eventId: EventID): Promise<void> {
+    const event = await this.eventRepository.getById(eventId);
+    await this.eventRepository.remove(event);
   }
 }

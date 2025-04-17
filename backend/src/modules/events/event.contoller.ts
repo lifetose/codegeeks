@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Delete,
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -52,5 +53,10 @@ export class EventsController {
   ): Promise<EventResDto> {
     const result = await this.eventService.update(eventId, dto);
     return EventsMapper.toResDto(result);
+  }
+
+  @Delete(':eventId')
+  public async delete(@Param('eventId') eventId: EventID): Promise<void> {
+    await this.eventService.delete(eventId);
   }
 }
