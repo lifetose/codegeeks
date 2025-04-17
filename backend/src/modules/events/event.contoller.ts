@@ -59,4 +59,12 @@ export class EventsController {
   public async delete(@Param('eventId') eventId: EventID): Promise<void> {
     await this.eventService.delete(eventId);
   }
+
+  @Get(':eventId/similar')
+  public async getSimilarEvents(
+    @Param('eventId') eventId: EventID,
+  ): Promise<EventResDto[]> {
+    const results = await this.eventService.getSimilarEvents(eventId);
+    return results.map(EventsMapper.toResDto);
+  }
 }

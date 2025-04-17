@@ -40,4 +40,25 @@ export class EventsService {
     const event = await this.eventRepository.getById(eventId);
     await this.eventRepository.remove(event);
   }
+
+  public async getSimilarEvents(eventId: EventID): Promise<EventEntity[]> {
+    const targetEvent = await this.eventRepository.getById(eventId);
+
+    if (!targetEvent) {
+      throw new Error('Event not found');
+    }
+
+    const dateRangeStart = new Date(targetEvent.date);
+    const dateRangeEnd = new Date(targetEvent.date);
+    dateRangeStart.setDate(dateRangeStart.getDate() - 7);
+    dateRangeEnd.setDate(dateRangeEnd.getDate() + 7);
+
+    return this.eventRepository.findSimilarEvents({
+      category: targetEvent.category,
+      location: targetEvent.location,
+      dateStart: dateRangeStart,
+      dateEnd: dateRangeEnd,
+      excludeId: targetEvent.id,
+    });
+  }
 }

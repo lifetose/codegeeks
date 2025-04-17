@@ -31,4 +31,22 @@ export class EventRepository extends Repository<EventEntity> {
     qb.where('event.id = :eventId', { eventId });
     return await qb.getOne();
   }
+
+  public async findSimilarEvents(params: {
+    category: string;
+    location: string;
+    dateStart: Date;
+    dateEnd: Date;
+    excludeId: EventID;
+  }): Promise<EventEntity[]> {
+    return this.createQueryBuilder('event')
+      .where('event.category = :category', { category: params.category })
+      .andWhere('event.location = :location', { location: params.location })
+      .andWhere('event.date BETWEEN :dateStart AND :dateEnd', {
+        dateStart: params.dateStart,
+        dateEnd: params.dateEnd,
+      })
+      .andWhere('event.id != :excludeId', { excludeId: params.excludeId })
+      .getMany();
+  }
 }
