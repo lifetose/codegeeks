@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { EventsController } from './event.contoller';
 import { EventsService } from './services/events.service';
 
@@ -7,4 +8,4 @@ import { EventsService } from './services/events.service';
   controllers: [EventsController],
   providers: [EventsService],
 })
-export class ArticlesModule {}
+export class EventsModule {}
