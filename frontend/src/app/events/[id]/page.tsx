@@ -27,12 +27,14 @@ export default function EventDetailPage() {
   }, [id]);
 
   const handleUpdate = async (data: any) => {
+    const { id, created, updated, ...sanitizedData } = data;
+
     await fetch(`http://localhost:5000/events/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(sanitizedData),
     });
 
     router.push("/");
