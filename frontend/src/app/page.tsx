@@ -47,7 +47,9 @@ export default function EventsPage() {
   return (
     <Stack spacing={2} p={4}>
       <NextLink href='/events/new'>
-        <Button variant='contained'>Create New Event</Button>
+        <Button variant='contained' color='success'>
+          Create New Event
+        </Button>
       </NextLink>
 
       <Stack direction='row' spacing={2}>
