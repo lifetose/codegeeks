@@ -13,7 +13,7 @@ export default function Header() {
         <Button color='inherit' component={Link} href='/'>
           Home
         </Button>
-        <Button color='inherit' component={Link} href='events/new'>
+        <Button color='inherit' component={Link} href='/events/new'>
           Add Event
         </Button>
       </Toolbar>

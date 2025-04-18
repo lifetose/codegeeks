@@ -1,11 +1,19 @@
-import { getEvent } from "../../../utils/api";
+"use client";
 
-export default async function EventDetail({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const event = await getEvent(params.id);
+import { useEffect, useState } from "react";
+import { getEvent } from "../../../utils/api";
+import { useParams } from "next/navigation";
+import { Event } from "@/types/event";
+
+export default function EventDetail() {
+  const { id } = useParams();
+  const [event, setEvent] = useState<Event | null>(null);
+
+  useEffect(() => {
+    getEvent(id as string).then(setEvent);
+  }, [id]);
+
+  if (!event) return <div>Loading...</div>;
 
   return (
     <div style={{ padding: "2rem" }}>
