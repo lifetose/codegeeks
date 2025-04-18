@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getEvents } from "../utils/api";
-import Link from "next/link";
+import NextLink from "next/link";
 import {
   Button,
   Card,
@@ -51,9 +51,9 @@ export default function EventsPage() {
 
   return (
     <Stack spacing={2} p={4}>
-      <Link href='/events/new'>
+      <NextLink href='/events/new'>
         <Button variant='contained'>Create New Event</Button>
-      </Link>
+      </NextLink>
 
       <Stack direction='row' spacing={2}>
         <FormControl fullWidth>
@@ -94,12 +94,12 @@ export default function EventsPage() {
               {event.category}
             </Typography>
             <Stack direction='row' spacing={1} mt={1}>
-              <Link href={`/events/${event.id}`}>
+              <NextLink href={`/events/${event.id}`}>
                 <Button size='small'>View</Button>
-              </Link>
-              <Link href={`/events/${event.id}/edit`}>
+              </NextLink>
+              <NextLink href={`/events/${event.id}/edit`}>
                 <Button size='small'>Edit</Button>
-              </Link>
+              </NextLink>
               <form action={`/events/${event.id}/delete`} method='post'>
                 <Button type='submit' size='small' color='error'>
                   Delete

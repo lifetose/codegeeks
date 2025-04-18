@@ -1,7 +1,7 @@
 "use client";
 
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import Link from "next/link";
+import NextLink from "next/link";
 
 export default function Header() {
   return (
@@ -10,10 +10,10 @@ export default function Header() {
         <Typography variant='h6' sx={{ flexGrow: 1 }}>
           Event Manager
         </Typography>
-        <Button color='inherit' component={Link} href='/'>
+        <Button color='inherit' component={NextLink} href='/'>
           Home
         </Button>
-        <Button color='inherit' component={Link} href='/events/new'>
+        <Button color='inherit' component={NextLink} href='/events/new'>
           Add Event
         </Button>
       </Toolbar>
