@@ -8,3 +8,10 @@ export interface Event {
   created?: string;
   updated?: string;
 }
+
+export interface EventListResDto {
+  data: Event[];
+  total: number;
+  page: number;
+  limit: number;
+}

@@ -1,8 +1,42 @@
-// utils/api.ts
-import axios from "axios";
+import { Event, EventListResDto } from "@/types/event";
 
-const api = axios.create({
-  baseURL: "http://localhost:5000/events", // Adjust to your backend URL
-});
+const BASE_URL = "http://localhost:5000/events";
 
-export default api;
+export async function getEvents(): Promise<EventListResDto> {
+  const res = await fetch(BASE_URL);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch events: ${res.status}`);
+  }
+  const data: EventListResDto = await res.json();
+  return data;
+}
+
+export async function getEvent(id: string) {
+  const res = await fetch(`${BASE_URL}/${id}`);
+  return res.json();
+}
+
+export async function createEvent(
+  data: Omit<Event, "id" | "created" | "updated">,
+): Promise<Response> {
+  return await fetch(BASE_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateEvent(
+  id: string,
+  data: Omit<Event, "id" | "created" | "updated">,
+): Promise<Response> {
+  return await fetch(`${BASE_URL}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteEvent(id: string) {
+  return await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+}

@@ -1,63 +1,70 @@
-// components/EventForm.tsx
 "use client";
 
+import { TextField, Button, Box } from "@mui/material";
 import { useState } from "react";
-import { Event } from "../types/event";
+import { Event } from "@/types/event";
 
 interface Props {
   initialData?: Partial<Event>;
-  onSubmit: (data: Partial<Event>) => void;
+  onSubmit: (data: Omit<Event, "id" | "created" | "updated">) => void;
 }
 
 export default function EventForm({ initialData = {}, onSubmit }: Props) {
-  const [formData, setFormData] = useState<Partial<Event>>(initialData);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [title, setTitle] = useState(initialData.title || "");
+  const [description, setDescription] = useState(initialData.description || "");
+  const [date, setDate] = useState(initialData.date || "");
+  const [location, setLocation] = useState(initialData.location || "");
+  const [category, setCategory] = useState(initialData.category || "");
 
   return (
-    <form
+    <Box
+      component='form'
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit(formData);
+        onSubmit({ title, description, date, location, category });
       }}
+      display='flex'
+      flexDirection='column'
+      gap={2}
+      maxWidth={400}
     >
-      <input
-        name='title'
-        value={formData.title || ""}
-        onChange={handleChange}
-        placeholder='Title'
+      <TextField
+        label='Title'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         required
       />
-      <input
-        name='description'
-        value={formData.description || ""}
-        onChange={handleChange}
-        placeholder='Description'
-      />
-      <input
-        name='category'
-        value={formData.category || ""}
-        onChange={handleChange}
-        placeholder='Category'
+      <TextField
+        label='Description'
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        multiline
         required
       />
-      <input
-        name='date'
+      <TextField
+        label='Category'
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        multiline
+        required
+      />
+      <TextField
+        label='Date'
         type='date'
-        value={formData.date?.split("T")[0] || ""}
-        onChange={handleChange}
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
         required
       />
-      <input
-        name='location'
-        value={formData.location || ""}
-        onChange={handleChange}
-        placeholder='Location'
+      <TextField
+        label='Location'
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        multiline
         required
       />
-      <button type='submit'>Submit</button>
-    </form>
+      <Button type='submit' variant='contained'>
+        Submit
+      </Button>
+    </Box>
   );
 }
