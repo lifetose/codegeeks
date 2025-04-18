@@ -58,6 +58,20 @@ export const updateEvent = async (
   }
 };
 
-export async function deleteEvent(id: string) {
-  return await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
-}
+export const deleteEvent = async (id: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+    return await handleResponse<boolean>(response);
+  } catch (error) {
+    throw new Error(`Failed to delete event: ${error}`);
+  }
+};
+
+export const getSimilarEvents = async (id: string): Promise<Event[]> => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}/similar`);
+    return await handleResponse<Event[]>(response);
+  } catch (error) {
+    throw new Error(`Failed to fetch event with id ${id}: ${error}`);
+  }
+};
