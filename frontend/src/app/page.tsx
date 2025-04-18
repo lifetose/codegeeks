@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getEvents } from "../utils/api";
 import NextLink from "next/link";
 import {
   Button,
@@ -15,24 +14,17 @@ import {
   InputLabel,
 } from "@mui/material";
 import type { Event } from "../types/event";
+import useEvents from "@/hooks/useEvents";
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const { data, loading, error } = useEvents();
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [category, setCategory] = useState<string>("All");
   const [sortOrder, setSortOrder] = useState<string>("asc");
 
   useEffect(() => {
-    async function fetchEvents() {
-      const { data } = await getEvents();
-      setEvents(data);
-    }
-
-    fetchEvents();
-  }, []);
-
-  useEffect(() => {
-    let filtered = [...events];
+    if (!data?.data) return;
+    let filtered = [...data.data];
 
     if (category !== "All") {
       filtered = filtered.filter((e) => e.category === category);
@@ -45,9 +37,12 @@ export default function EventsPage() {
     });
 
     setFilteredEvents(filtered);
-  }, [category, sortOrder, events]);
+  }, [category, sortOrder, data?.data]);
 
-  const categories = Array.from(new Set(events.map((e) => e.category)));
+  const categories = Array.from(new Set(data?.data.map((e) => e.category)));
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <Stack spacing={2} p={4}>

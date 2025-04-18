@@ -1,35 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getEvent } from "../../../utils/api";
 import { useParams } from "next/navigation";
-import { Event } from "@/types/event";
+import useEvent from "@/hooks/useEvent";
 
 export default function EventDetail() {
-  const { id } = useParams();
-  const [event, setEvent] = useState<Event | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id?: string }>();
 
-  useEffect(() => {
-    if (!id) return;
+  const { data: event, loading, error } = useEvent(id, { skip: !id });
 
-    getEvent(id as string)
-      .then(setEvent)
-      .catch((err) => {
-        setError(err.message);
-        console.error(err);
-      });
-  }, [id]);
-
+  if (loading) return <div>Loading...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
-  if (!event) return <div>Loading...</div>;
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2>{event.title}</h2>
-      <p>{event.description}</p>
+      <h1>Event Details</h1>
+      <h2>{event?.title}</h2>
+      <p>{event?.description}</p>
       <p>
-        <strong>Date:</strong> {event.date}
+        <strong>Date:</strong> {event?.date}
       </p>
     </div>
   );

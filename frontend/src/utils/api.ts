@@ -2,50 +2,61 @@ import { Event, EventListResDto } from "@/types/event";
 
 const BASE_URL = "http://localhost:5000/events";
 
-export async function getEvents(): Promise<EventListResDto> {
-  const res = await fetch(BASE_URL);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch events: ${res.status}`);
+const handleResponse = async <T>(response: Response): Promise<T> => {
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status} ${response.statusText}`);
   }
-  const data: EventListResDto = await res.json();
-  return data;
-}
+  return response.json();
+};
 
-export async function getEvent(id: string) {
+export const getEvents = async (): Promise<EventListResDto> => {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`);
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch event: ${res.statusText}`);
-    }
-
-    return res.json();
+    const response = await fetch(BASE_URL);
+    return await handleResponse<EventListResDto>(response);
   } catch (error) {
-    console.error("Error fetching event:", error);
-    throw error;
+    throw new Error(`Failed to fetch events: ${error}`);
   }
-}
+};
 
-export async function createEvent(
-  data: Omit<Event, "id" | "created" | "updated">,
-): Promise<Response> {
-  return await fetch(BASE_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-}
+export const getEventById = async (id: string): Promise<Event> => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`);
+    return await handleResponse<Event>(response);
+  } catch (error) {
+    throw new Error(`Failed to fetch event with id ${id}: ${error}`);
+  }
+};
 
-export async function updateEvent(
+export const createEvent = async (
+  book: Omit<Event, "id" | "created" | "updated">,
+): Promise<Event | null> => {
+  try {
+    const response = await fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book),
+    });
+    return await handleResponse<Event>(response);
+  } catch (error) {
+    throw new Error(`Failed to add event: ${error}`);
+  }
+};
+
+export const updateEvent = async (
   id: string,
-  data: Omit<Event, "id" | "created" | "updated">,
-): Promise<Response> {
-  return await fetch(`${BASE_URL}/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-}
+  book: Omit<Event, "id" | "created" | "updated">,
+): Promise<Event | null> => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book),
+    });
+    return await handleResponse<Event>(response);
+  } catch (error) {
+    throw new Error(`Failed to update book: ${error}`);
+  }
+};
 
 export async function deleteEvent(id: string) {
   return await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
