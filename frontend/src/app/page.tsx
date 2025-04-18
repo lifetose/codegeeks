@@ -79,31 +79,36 @@ export default function EventsPage() {
           </Select>
         </FormControl>
       </Stack>
-
-      {filteredEvents.map((event) => (
-        <Card key={event.id}>
-          <CardContent>
-            <Typography variant='h6'>{event.title}</Typography>
-            <Typography variant='body2'>{event.date}</Typography>
-            <Typography variant='body2' color='text.secondary'>
-              {event.category}
-            </Typography>
-            <Stack direction='row' spacing={1} mt={1}>
-              <NextLink href={`/events/${event.id}`}>
-                <Button size='small'>View</Button>
-              </NextLink>
-              <NextLink href={`/events/${event.id}/edit`}>
-                <Button size='small'>Edit</Button>
-              </NextLink>
-              <form action={`/events/${event.id}/delete`} method='post'>
-                <Button type='submit' size='small' color='error'>
-                  Delete
-                </Button>
-              </form>
-            </Stack>
-          </CardContent>
-        </Card>
-      ))}
+      {filteredEvents.length === 0 ? (
+        <Typography variant='body1'>No events found.</Typography>
+      ) : (
+        <>
+          {filteredEvents.map((event) => (
+            <Card key={event.id}>
+              <CardContent>
+                <Typography variant='h6'>{event.title}</Typography>
+                <Typography variant='body2'>{event.date}</Typography>
+                <Typography variant='body2' color='text.secondary'>
+                  {event.category}
+                </Typography>
+                <Stack direction='row' spacing={1} mt={1}>
+                  <NextLink href={`/events/${event.id}`}>
+                    <Button size='small'>View</Button>
+                  </NextLink>
+                  <NextLink href={`/events/${event.id}/edit`}>
+                    <Button size='small'>Edit</Button>
+                  </NextLink>
+                  <form action={`/events/${event.id}/delete`} method='post'>
+                    <Button type='submit' size='small' color='error'>
+                      Delete
+                    </Button>
+                  </form>
+                </Stack>
+              </CardContent>
+            </Card>
+          ))}
+        </>
+      )}
     </Stack>
   );
 }
