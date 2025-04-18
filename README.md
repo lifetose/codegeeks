@@ -9,7 +9,6 @@ To run application follow next steps:
 
 APP_PORT=5000
 APP_HOST="localhost"
-
 POSTGRES_HOST="localhost"
 POSTGRES_PORT=5432
 POSTGRES_USER="postgres"
