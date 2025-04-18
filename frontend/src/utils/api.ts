@@ -28,13 +28,13 @@ export const getEventById = async (id: string): Promise<Event> => {
 };
 
 export const createEvent = async (
-  book: Omit<Event, "id" | "created" | "updated">,
+  event: Omit<Event, "id" | "created" | "updated">,
 ): Promise<Event | null> => {
   try {
     const response = await fetch(BASE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
+      body: JSON.stringify(event),
     });
     return await handleResponse<Event>(response);
   } catch (error) {
@@ -44,17 +44,17 @@ export const createEvent = async (
 
 export const updateEvent = async (
   id: string,
-  book: Omit<Event, "id" | "created" | "updated">,
+  event: Omit<Event, "id" | "created" | "updated">,
 ): Promise<Event | null> => {
   try {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
+      body: JSON.stringify(event),
     });
     return await handleResponse<Event>(response);
   } catch (error) {
-    throw new Error(`Failed to update book: ${error}`);
+    throw new Error(`Failed to update event: ${error}`);
   }
 };
 
