@@ -26,7 +26,6 @@ export default function EventsPage() {
     async function fetchEvents() {
       const { data } = await getEvents();
       setEvents(data);
-      setFilteredEvents(data);
     }
 
     fetchEvents();
