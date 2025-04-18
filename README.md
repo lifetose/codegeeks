@@ -15,9 +15,9 @@ POSTGRES_USER="postgres"
 POSTGRES_PASSWORD=""
 POSTGRES_DB=""
 
-5.  run next command in backend folder terminal npm run typeorm -- migration:run
+5.  run command in backend folder terminal npm run migration:run
 
-6.  start backend with command npm start:dev
+6.  start backend with command npm run start:dev
 
 7.  go to frontend folder and run it with command npm run dev
 
