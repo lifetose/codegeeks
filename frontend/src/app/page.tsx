@@ -88,7 +88,9 @@ export default function EventsPage() {
           {filteredEvents.map((event) => (
             <Card key={event.id}>
               <CardContent>
-                <Typography variant='h6'>{event.title}</Typography>
+                <Typography variant='h6'>
+                  <strong>Title:</strong> {event.title}
+                </Typography>
                 <Typography variant='body2'>{event.date}</Typography>
                 <Typography variant='body2' color='text.secondary'>
                   {event.category}

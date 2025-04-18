@@ -44,7 +44,7 @@ export default function EventDetail() {
       <Card elevation={3}>
         <CardContent>
           <Typography variant='h3' gutterBottom>
-            {event?.title}
+            <strong>Title:</strong> {event?.title}
           </Typography>
           <Typography variant='body1' gutterBottom>
             <strong>Description:</strong> {event?.description}
