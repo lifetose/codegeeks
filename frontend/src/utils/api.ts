@@ -12,8 +12,18 @@ export async function getEvents(): Promise<EventListResDto> {
 }
 
 export async function getEvent(id: string) {
-  const res = await fetch(`${BASE_URL}/${id}`);
-  return res.json();
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch event: ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching event:", error);
+    throw error;
+  }
 }
 
 export async function createEvent(

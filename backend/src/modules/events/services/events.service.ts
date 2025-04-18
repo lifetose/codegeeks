@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { EventID } from '../../../common/types/entity-ids.type';
 import { EventRepository } from 'src/modules/repository/services/event.repository';
@@ -24,7 +28,20 @@ export class EventsService {
   }
 
   public async findOne(eventId: EventID): Promise<EventEntity> {
-    return await this.eventRepository.getById(eventId);
+    try {
+      const event = await this.eventRepository.getById(eventId);
+      if (!event) {
+        throw new NotFoundException(`Event with ID ${eventId} not found`);
+      }
+      return event;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'An error occurred while retrieving the event',
+      );
+    }
   }
 
   public async update(

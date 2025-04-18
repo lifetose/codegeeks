@@ -8,11 +8,20 @@ import { Event } from "@/types/event";
 export default function EventDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getEvent(id as string).then(setEvent);
+    if (!id) return;
+
+    getEvent(id as string)
+      .then(setEvent)
+      .catch((err) => {
+        setError(err.message);
+        console.error(err);
+      });
   }, [id]);
 
+  if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!event) return <div>Loading...</div>;
 
   return (
