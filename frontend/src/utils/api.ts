@@ -63,7 +63,10 @@ export const updateEvent = async (
 export const deleteEvent = async (id: string): Promise<boolean> => {
   try {
     const response = await fetch(`${EVENTS_URL}/${id}`, { method: "DELETE" });
-    return await handleResponse<boolean>(response);
+    if (!response.ok) {
+      throw new Error(`Failed to delete book with ID ${id}`);
+    }
+    return true;
   } catch (error) {
     throw new Error(`Failed to delete event: ${error}`);
   }
