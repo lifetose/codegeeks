@@ -12,6 +12,9 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Container,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import type { Event } from "../types/event";
 import useEvents from "@/hooks/useEvents";
@@ -41,8 +44,19 @@ export default function EventsPage() {
 
   const categories = Array.from(new Set(data?.data.map((e) => e.category)));
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading)
+    return (
+      <Container sx={{ mt: 4, textAlign: "center" }}>
+        <CircularProgress />
+      </Container>
+    );
+
+  if (error)
+    return (
+      <Container sx={{ mt: 4 }}>
+        <Alert severity='error'>{error}</Alert>
+      </Container>
+    );
 
   return (
     <Stack spacing={2} p={4}>
