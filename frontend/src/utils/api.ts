@@ -1,6 +1,8 @@
 import { Event, EventListResDto } from "@/types/event";
 
-const BASE_URL = "http://localhost:5000/events";
+const API_URL = "http://localhost:5000";
+
+const EVENTS_URL = `${API_URL}/events`;
 
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
@@ -11,7 +13,7 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
 
 export const getEvents = async (): Promise<EventListResDto> => {
   try {
-    const response = await fetch(BASE_URL);
+    const response = await fetch(EVENTS_URL);
     return await handleResponse<EventListResDto>(response);
   } catch (error) {
     throw new Error(`Failed to fetch events: ${error}`);
@@ -20,7 +22,7 @@ export const getEvents = async (): Promise<EventListResDto> => {
 
 export const getEventById = async (id: string): Promise<Event> => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`);
+    const response = await fetch(`${EVENTS_URL}/${id}`);
     return await handleResponse<Event>(response);
   } catch (error) {
     throw new Error(`Failed to fetch event with id ${id}: ${error}`);
@@ -31,7 +33,7 @@ export const createEvent = async (
   event: Omit<Event, "id" | "created" | "updated">,
 ): Promise<Event | null> => {
   try {
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(EVENTS_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event),
@@ -47,7 +49,7 @@ export const updateEvent = async (
   event: Omit<Event, "id" | "created" | "updated">,
 ): Promise<Event | null> => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const response = await fetch(`${EVENTS_URL}/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event),
@@ -60,7 +62,7 @@ export const updateEvent = async (
 
 export const deleteEvent = async (id: string): Promise<boolean> => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
+    const response = await fetch(`${EVENTS_URL}/${id}`, { method: "DELETE" });
     return await handleResponse<boolean>(response);
   } catch (error) {
     throw new Error(`Failed to delete event: ${error}`);
@@ -69,7 +71,7 @@ export const deleteEvent = async (id: string): Promise<boolean> => {
 
 export const getSimilarEvents = async (id: string): Promise<Event[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}/similar`);
+    const response = await fetch(`${EVENTS_URL}/${id}/similar`);
     return await handleResponse<Event[]>(response);
   } catch (error) {
     throw new Error(`Failed to fetch event with id ${id}: ${error}`);
