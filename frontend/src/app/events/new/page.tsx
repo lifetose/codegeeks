@@ -17,7 +17,7 @@ export default function NewEventPage() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2>Create New Event</h2>
+      <h2>Create Event</h2>
       <EventForm onSubmit={handleSubmit} />
     </div>
   );
