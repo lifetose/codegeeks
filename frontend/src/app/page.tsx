@@ -92,14 +92,31 @@ export default function EventsPage() {
                   {event.category}
                 </Typography>
                 <Stack direction='row' spacing={1} mt={1}>
-                  <NextLink href={`/events/${event.id}`}>
-                    <Button size='small'>View</Button>
+                  <NextLink href={`/events/${event.id}`} passHref>
+                    <Button variant='contained' size='small' color='primary'>
+                      View
+                    </Button>
                   </NextLink>
-                  <NextLink href={`/events/${event.id}/edit`}>
-                    <Button size='small'>Edit</Button>
+
+                  <NextLink href={`/events/${event.id}/edit`} passHref>
+                    <Button
+                      variant='contained'
+                      size='small'
+                      color='secondary'
+                      sx={{ ml: 1 }}
+                    >
+                      Edit
+                    </Button>
                   </NextLink>
+
                   <form action={`/events/${event.id}/delete`} method='post'>
-                    <Button type='submit' size='small' color='error'>
+                    <Button
+                      type='submit'
+                      variant='contained'
+                      size='small'
+                      color='error'
+                      sx={{ ml: 1 }}
+                    >
                       Delete
                     </Button>
                   </form>
