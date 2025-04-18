@@ -47,7 +47,10 @@ export default function EventDetail() {
             {event?.title}
           </Typography>
           <Typography variant='body1' gutterBottom>
-            {event?.description}
+            <strong>Description:</strong> {event?.description}
+          </Typography>
+          <Typography variant='subtitle1' color='text.secondary' gutterBottom>
+            <strong>Category:</strong> {event?.category}
           </Typography>
           <Typography variant='subtitle1' color='text.secondary' gutterBottom>
             <strong>Date:</strong> {event?.date}
@@ -84,7 +87,14 @@ export default function EventDetail() {
                       {e.title}
                     </Typography>
                     <Typography variant='body2' gutterBottom>
-                      {e.description}
+                      <strong>Description:</strong> {e.description}
+                    </Typography>
+                    <Typography
+                      variant='subtitle1'
+                      color='text.secondary'
+                      gutterBottom
+                    >
+                      <strong>Category:</strong> {event?.category}
                     </Typography>
                     <Typography
                       variant='subtitle1'
