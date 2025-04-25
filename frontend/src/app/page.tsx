@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import NextLink from "next/link";
 import {
   Button,
@@ -16,17 +16,16 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import type { Event } from "../types/event";
 import useEvents from "@/hooks/useEvents";
 
 export default function EventsPage() {
   const { data, loading, error } = useEvents();
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [category, setCategory] = useState<string>("All");
   const [sortOrder, setSortOrder] = useState<string>("asc");
 
-  useEffect(() => {
-    if (!data?.data) return;
+  const filteredEvents = useMemo(() => {
+    if (!data?.data) return [];
+
     let filtered = [...data.data];
 
     if (category !== "All") {
@@ -39,7 +38,7 @@ export default function EventsPage() {
       return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
 
-    setFilteredEvents(filtered);
+    return filtered;
   }, [category, sortOrder, data?.data]);
 
   const categories = Array.from(new Set(data?.data.map((e) => e.category)));
